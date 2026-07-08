@@ -1,0 +1,11 @@
+# Virtual environment folder
+venv/
+.venv/
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# Local databases or JSON storage we might make later
+*.db
+*.json 
