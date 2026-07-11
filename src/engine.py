@@ -48,14 +48,14 @@ def generate_daily_schedule(
         else:
             available_gap = int((end_datetime - current_time).total_seconds() / 60)
             
-        # Find the highest priority task that fits in this gap
         chosen_task = None
-        for task in task_pool:
-            if task.duration_minutes <= available_gap:
-                chosen_task = task
-                break  
+        if task_pool:
+            for task in task_pool:
+                if task.duration_minutes <= available_gap:
+                    chosen_task = task
+                    break  
                 
-        # Schedule the chosen task, or advance time if nothing fits
+        # Schedule the chosen task, or advance time if nothing fits / no tasks left
         if chosen_task:
             task_start = current_time.time()
             current_time += timedelta(minutes=chosen_task.duration_minutes)
@@ -70,11 +70,9 @@ def generate_daily_schedule(
                 end_time=task_end,
                 is_fixed=False
             ))
-            # Remove it from the pool so we don't schedule it twice
             task_pool.remove(chosen_task)
         else:
-            # If nothing fits, move pointer
-            # to the next fixed event or the end of the day to avoid infinite loops
+            # If nothing fits (or task_pool is empty), move pointer to the next fixed event
             if fixed_index < len(sorted_fixed):
                 current_time = datetime.combine(today, sorted_fixed[fixed_index].start_time)
             else:

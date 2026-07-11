@@ -9,3 +9,11 @@ __pycache__/
 # Local databases or JSON storage we might make later
 *.db
 *.json 
+
+# Conda environment files 
+.conda/
+conda-meta/
+
+# VS Code specific settings & workspace state
+.vscode/
+.history/
