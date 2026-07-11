@@ -8,7 +8,6 @@ _test_conn = None  # Cache connection to keep in-memory DB alive during test exe
 
 def get_connection():
     global _test_conn
-    # If using in-memory for testing, keep a single persistent connection alive
     if DB_PATH == ":memory:":
         if _test_conn is None:
             _test_conn = sqlite3.connect(":memory:")
@@ -20,8 +19,7 @@ def get_connection():
     return conn
 
 def init_db():
-    """Initializes the multi-schedule schema with foreign keys."""
-    # We remove the 'with' context here so SQLite doesn't close our shared test connection
+    """Initializes the multi-schedule schema with boundary properties and scratchpads."""
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("PRAGMA foreign_keys = ON;")
@@ -29,7 +27,9 @@ def init_db():
     # Table for named schedules
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS schedules (
-            name TEXT PRIMARY KEY
+            name TEXT PRIMARY KEY,
+            day_start TEXT NOT NULL DEFAULT '08:00',
+            day_end TEXT NOT NULL DEFAULT '22:00'
         )
     """)
     
@@ -56,20 +56,44 @@ def init_db():
             FOREIGN KEY (schedule_name) REFERENCES schedules(name) ON DELETE CASCADE
         )
     """)
+
+    # Text scratchpad for each profile view
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS scratchpads (
+            schedule_name TEXT PRIMARY KEY,
+            notes TEXT NOT NULL DEFAULT '',
+            FOREIGN KEY (schedule_name) REFERENCES schedules(name) ON DELETE CASCADE
+        )
+    """)
     conn.commit()
 
 # Schedule Management
 
-def get_all_schedules() -> List[str]:
+def get_all_schedules() -> List[dict]:
+    """Retrieves all schedules with their bound time configurations."""
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT name FROM schedules")
-    return [row["name"] for row in cursor.fetchall()]
+    cursor.execute("SELECT name, day_start, day_end FROM schedules")
+    return [dict(row) for row in cursor.fetchall()]
 
-def create_schedule(name: str):
+def get_schedule_bounds(name: str) -> Tuple[time, time]:
+    """Fetches custom time limits parsed out as standard time objects."""
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("INSERT OR IGNORE INTO schedules (name) VALUES (?)", (name,))
+    cursor.execute("SELECT day_start, day_end FROM schedules WHERE name = ?", (name,))
+    row = cursor.fetchone()
+    if row:
+        return (time.fromisoformat(row["day_start"]), time.fromisoformat(row["day_end"]))
+    return (time(8, 0), time(22, 0)) # Clean default fallback
+
+def create_schedule(name: str, day_start: str = "08:00", day_end: str = "22:00"):
+    """Inserts a brand new named workspace paired with time limits."""
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT OR IGNORE INTO schedules (name, day_start, day_end) VALUES (?, ?, ?)", 
+        (name, day_start, day_end)
+    )
     conn.commit()
 
 def delete_entire_schedule(name: str):
@@ -78,7 +102,7 @@ def delete_entire_schedule(name: str):
     cursor.execute("DELETE FROM schedules WHERE name = ?", (name,))
     conn.commit()
 
-# Saving Data
+# Data Insertion
 
 def save_fixed_event(schedule_name: str, event: FixedEvent):
     conn = get_connection()
@@ -98,7 +122,7 @@ def save_flexible_task(schedule_name: str, task: FlexibleTask):
     )
     conn.commit()
 
-# Loading Data (Returns IDs for deletion purposes) 
+# Data Query Tools
 
 def load_fixed_events(schedule_name: str) -> List[Tuple[int, FixedEvent]]:
     events = []
@@ -120,7 +144,27 @@ def load_flexible_tasks(schedule_name: str) -> List[Tuple[int, FlexibleTask]]:
         tasks.append((row["id"], FlexibleTask(name=row["name"], duration_minutes=row["duration_minutes"], priority=row["priority"])))
     return tasks
 
-# Selective Deletions
+# Scratchpad Notepad Logic
+
+def get_scratchpad(schedule_name: str) -> str:
+    """Loads the note block text. Creates one if missing."""
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT notes FROM scratchpads WHERE schedule_name = ?", (schedule_name,))
+    row = cursor.fetchone()
+    if row:
+        return row["notes"]
+    return ""
+
+def update_scratchpad(schedule_name: str, text: str):
+    """Saves changes written into the lower text section."""
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT INTO scratchpads (schedule_name, notes) VALUES (?, ?) ON CONFLICT(schedule_name) DO UPDATE SET notes=excluded.notes",
+        (schedule_name, text)
+    )
+    conn.commit()
 
 def delete_fixed_event(event_id: int):
     conn = get_connection()
@@ -139,4 +183,5 @@ def clear_schedule_contents(schedule_name: str):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM fixed_events WHERE schedule_name = ?", (schedule_name,))
     cursor.execute("DELETE FROM flexible_tasks WHERE schedule_name = ?", (schedule_name,))
+    cursor.execute("DELETE FROM scratchpads WHERE schedule_name = ?", (schedule_name,))
     conn.commit()
