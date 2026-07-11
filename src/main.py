@@ -37,14 +37,26 @@ def main():
     
     print("=========================================")
     print("      Welcome to Auto Schedule Builder    ")
-    print("=========================================\n")
+    print("=========================================")
     
-    print("First, let's establish your day's boundaries.")
+    # Choose data mode before starting
+    print("\nSelect an option:")
+    print("1. Continue with saved schedule")
+    print("2. New schedule (this will clear all saved data)")
+    
+    choice = input("Choice (1 or 2): ").strip()
+    if choice == "2":
+        clear_all_data()
+        print("Data cleared.")
+    else:
+        print("Loading saved data...")
+
+    print("\nFirst, let's establish your day's boundaries.")
     day_start = get_time_input("Enter day start time (e.g., 8:00 AM): ")
     day_end = get_time_input("Enter day end time (e.g., 10:00 PM): ")
     
     while True:
-        # Pull what's currently saved in the SQL DB
+        # Pull what's currently in the SQL DB
         fixed_events = load_fixed_events()
         flexible_tasks = load_flexible_tasks()
         
@@ -89,7 +101,7 @@ def main():
             
         elif choice == "3":
             if not fixed_events and not flexible_tasks:
-                print("\nError: You don't have any items saved in the database yet!")
+                print("\nError: You don't have any items saved yet!")
                 continue
                 
             schedule, overflow = generate_daily_schedule(day_start, day_end, fixed_events, flexible_tasks)
@@ -110,7 +122,7 @@ def main():
                 print("\nSuccess! All tasks were successfully scheduled.")
                 
         elif choice == "4":
-            confirm = input("Are you sure you want to wipe the database? (y/n): ").strip().lower()
+            confirm = input("Are you sure you want to restart? (y/n): ").strip().lower()
             if confirm == 'y':
                 clear_all_data()
                 print("Database cleared successfully.")
