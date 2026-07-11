@@ -5,6 +5,9 @@ venv/
 # Python cache files
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.pytest_cache/
 
 # Local databases or JSON storage we might make later
 *.db
@@ -19,3 +22,7 @@ conda-meta/
 .history/
 
 .env
+schedule.db
+
+.DS_Store
+Thumbs.db
