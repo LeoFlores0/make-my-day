@@ -17,3 +17,5 @@ conda-meta/
 # VS Code specific settings & workspace state
 .vscode/
 .history/
+
+.env
