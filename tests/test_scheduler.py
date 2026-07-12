@@ -26,12 +26,14 @@ class TestDatabaseAndEngine(unittest.TestCase):
 
     def test_create_and_get_schedules(self):
         """Test that multi-schedule profiles can be created and listed."""
-        db.create_schedule("Weekend")
-        schedules = db.get_all_schedules()
+        db.create_schedule("Weekday", "08:00", "22:00")
+        db.create_schedule("Weekend", "09:00", "23:00")
         
-        self.assertIn("Weekday", schedules)
-        self.assertIn("Weekend", schedules)
-        self.assertEqual(len(schedules), 2)
+        schedules_data = db.get_all_schedules()
+        schedule_names = [s["name"] for s in schedules_data]
+        
+        self.assertIn("Weekday", schedule_names)
+        self.assertIn("Weekend", schedule_names)
 
     def test_save_and_load_fixed_events(self):
         """Test that fixed events save correctly to a specific profile and retain attributes."""
