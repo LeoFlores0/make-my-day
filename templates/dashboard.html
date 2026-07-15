@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="app-container">
+
+    {% if state == "startup" %}
+        <div class="startup-view">
+            {% include "components/startup-card.html" %}
+        </div>
+
+    {% else %}
+        <header class="dashboard-header">
+            <h1>Workspace: <span class="profile-name">{{ session.get('active_schedule') }}</span></h1>
+            <div class="header-actions">
+                <form action="/schedule/clear-all" method="POST" onsubmit="return confirm('Remove schedule and content?');">
+                    <button type="submit" class="btn btn-danger">Clear All</button>
+                </form>
+                <a href="/logout" class="btn btn-outline">Change Schedule</a>
+            </div>
+        </header>
+
+        <div class="dashboard-layout">
+            <aside class="dashboard-sidebar">
+                {% include "components/form-fixed.html" %}
+                {% include "components/form-flexible.html" %}
+                
+                <div class="grid-two-column">
+                    {% include "components/list-fixed.html" %}
+                    {% include "components/list-flexible.html" %}
+                </div>
+
+                {% include "components/scratchpad.html" %}
+            </aside>
+
+            <main class="dashboard-main">
+                {% include "components/schedule-timeline.html" %}
+            </main>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}
