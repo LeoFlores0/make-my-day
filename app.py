@@ -11,6 +11,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
+app.secret_key = os.getenv("S")
 # Initialize the database schema on web server startup
 db.init_db()
 
