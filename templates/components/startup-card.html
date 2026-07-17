@@ -1,0 +1,48 @@
+<div class="startup-card">
+    
+    {% if schedules %}
+        <div class="split-layout">
+            
+            <div class="schedule select-section">
+                <h3>Schedules</h3>
+                
+                <form action="/select-schedule" method="POST" class="schedule-list-form">
+                    <div class="schedule-list">
+                        {% for schedule in schedules %}
+                            <button type="submit" name="active_schedule" value="{{ schedule.name }}" class="btn-primary ">
+                                <span class="schedule-name">{{ schedule.name }}</span>
+                                <span class="schedule-time">{{ schedule.day_start }} - {{ schedule.day_end }}</span>                            </button>
+                        {% endfor %}
+                    </div>
+                </form>
+            </div>
+
+            <div class="vertical-divider"></div>
+
+            <div class="schedule create-section">
+                <h3>Create New Schedule</h3>
+                <form action="/create-schedule" method="POST">
+                    <label for="new_schedule_name"></label>
+                    <input type="text" name="new_schedule_name" id="new_schedule_name" placeholder="Name?" required>
+                    
+                    <div class="row">
+                        <div>
+                            <label for="day_start">Start of Day:</label>
+                            <input type="time" name="day_start" id="day_start" value="08:00" required>
+                        </div>
+                        <div>
+                            <label for="day_end">End of Day:</label>
+                            <input type="time" name="day_end" id="day_end" value="22:00" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary btn-block">Done!</button>
+                </form>
+            </div>
+
+        </div>
+    {% else %}
+
+    {% endif %}
+
+</div>

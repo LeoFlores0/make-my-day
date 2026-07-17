@@ -6,7 +6,6 @@ import src.database as db
 from src.models import FixedEvent, FlexibleTask
 from src.engine import generate_daily_schedule
 
-# Load environment variables from the .env file
 load_dotenv()
 
 app = Flask(__name__)
@@ -58,7 +57,7 @@ def index():
         notes=scratchpad_notes
     )
 
-# PROFILE SESSION OVERRIDES
+# SCHEDULE SESSION OVERRIDES
 
 @app.route("/schedule/select", methods=["POST"])
 def select_schedule():
