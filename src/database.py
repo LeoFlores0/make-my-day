@@ -84,7 +84,7 @@ def get_schedule_bounds(name: str) -> Tuple[time, time]:
     row = cursor.fetchone()
     if row:
         return (time.fromisoformat(row["day_start"]), time.fromisoformat(row["day_end"]))
-    return (time(8, 0), time(22, 0)) # Clean default fallback
+    return (time(8, 0), time(22, 0))
 
 def create_schedule(name: str, day_start: str = "08:00", day_end: str = "22:00"):
     """Inserts a brand new named workspace paired with time limits."""

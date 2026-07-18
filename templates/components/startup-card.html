@@ -42,7 +42,26 @@
 
         </div>
     {% else %}
-
+        <div class="schedule create-section" style="max-width: 400px; margin: 0 auto; text-align: center;">
+            <h3>Create Schedule</h3>
+            <form action="/create-schedule" method="POST">
+                <label for="new_schedule_name"></label>
+                <input type="text" name="new_schedule_name" id="new_schedule_name" placeholder="Name?" required>
+                
+                <div class="row" style="text-align: left;">
+                    <div>
+                        <label for="day_start">Start of Day:</label>
+                        <input type="time" name="day_start" id="day_start" value="08:00" required>
+                    </div>
+                    <div>
+                        <label for="day_end">End of Day:</label>
+                        <input type="time" name="day_end" id="day_end" value="22:00" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-primary btn-block">Done!</button>
+            </form>
+        </div>
     {% endif %}
 
 </div>
