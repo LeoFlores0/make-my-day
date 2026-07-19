@@ -1,0 +1,38 @@
+<div class="fixed-form-card">
+    <div class="form-header">
+        <h2>Add Fixed Event</h2>
+    </div>
+    
+    <form action="{{ url_for('add_fixed_event') }}" method="POST" class="fixed-form">
+        <div class="form-group">
+            <label for="fixed-name">Event Name</label>
+            <input type="text" 
+                   id="fixed-name" 
+                   name="name" 
+                   placeholder="e.g., Class" 
+                   required>
+        </div>
+
+        <div class="form-grid-two-col">
+            <div class="form-group">
+                <label for="fixed-start">Start Time</label>
+                <input type="time" 
+                       id="fixed-start" 
+                       name="start_time" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="fixed-end">End Time</label>
+                <input type="time" 
+                       id="fixed-end" 
+                       name="end_time" 
+                       required>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-submit">
+            Add
+        </button>
+    </form>
+</div>

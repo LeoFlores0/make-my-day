@@ -1,0 +1,42 @@
+<div class="flexible-form-card">
+    <div class="form-header">
+        <h2>Add Flexible Task</h2>
+    </div>
+    
+    <form action="{{ url_for('add_flexible_task') }}" method="POST" class="flexible-form">
+        <div class="form-group">
+            <label for="flex-name">Task Name</label>
+            <input type="text" 
+                   id="flex-name" 
+                   name="name" 
+                   placeholder="e.g., Free time" 
+                   required>
+        </div>
+
+        <div class="form-grid-two-col">
+            <div class="form-group">
+                <label for="flex-duration">Duration (Minutes)</label>
+                <input type="text" 
+                       id="flex-duration" 
+                       name="duration_minutes" 
+                       inputmode="numeric" 
+                       pattern="[0-9]*" 
+                       placeholder="e.g., 88" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="flex-priority">Priority Level</label>
+                <select id="flex-priority" name="priority" required>
+                    <option value="1">High</option>
+                    <option value="2" selected>Medium</option>
+                    <option value="3">Low</option>
+                </select>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-submit">
+            Add
+        </button>
+    </form>
+</div>
