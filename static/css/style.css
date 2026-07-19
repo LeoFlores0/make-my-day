@@ -1,3 +1,5 @@
+/* Background */
+
 body {
     background-image: url('../images/floral_bg.webp'); 
     background-size: cover;            
@@ -13,6 +15,27 @@ body {
     min-height: 100vh;
     box-sizing: border-box;
 }
+
+/* Button Styles */
+
+.btn-primary:hover {
+    background: #ffd5d1;
+    border-color: #dab1ad;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(236, 201, 197, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(0px);
+    box-shadow: none;
+}
+
+.btn-block {
+    width: 100%;
+    display: flex;
+}
+
+/* Start-up dashboard */
 
 .app-header, 
 .app-container {
@@ -118,23 +141,6 @@ body {
     transition: all 0.2s ease-in-out;
 }
 
-.btn-primary:hover {
-    background: #ffd5d1;
-    border-color: #dab1ad;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(236, 201, 197, 0.4);
-}
-
-.btn-primary:active {
-    transform: translateY(0px);
-    box-shadow: none;
-}
-
-.btn-block {
-    width: 100%;
-    display: flex;
-}
-
 .schedule-name {
     flex-grow: 1;
     text-align: left;
@@ -145,4 +151,76 @@ body {
     margin-left: 15px;                
     font-size: 0.9rem;
     opacity: 0.8;
+}
+
+/* Fixed and Flexible Form Cards */
+
+/* Card Layout Constraints & Spacing */
+.fixed-form-card, 
+.flexible-form-card {
+    max-width: 380px;            
+    margin: 0 auto 2.5rem auto;  
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Typography */
+.form-header h2 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 1.6rem;           
+    color: #4a2d2d;
+    margin-top: 0;
+    margin-bottom: 1.25rem;      
+}
+
+.form-group label {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;           
+    color: #4a2d2d;
+    display: block;
+    margin-bottom: 6px;
+}
+
+/* Form Inputs, Select Elements, and Focus states */
+.form-group input[type="text"],
+.form-group input[type="time"],
+.form-group select {
+    width: 100%;
+    padding: 10px 14px;          
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;          
+    color: #4a2d2d;
+    background-color: #fbfbf0;
+    border: 1px solid #ecc9c5;     
+    border-radius: 6px;            
+    transition: all 0.2s ease;
+    margin-bottom: 12px;         
+    box-sizing: border-box;
+}
+
+/* Styling for select dropdown arrow */
+.form-group select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%234a2d2d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 0.9rem;
+    padding-right: 36px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #ff1b8d;
+    box-shadow: 0 0 0 3px rgba(255, 27, 141, 0.15);
+}
+
+/* Two-Column Grid */
+.form-grid-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;                   
 }
