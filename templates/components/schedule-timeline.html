@@ -1,0 +1,62 @@
+<div class="schedule-column">
+    <div class="timeline-header">
+        <h2>Today's Schedule</h2>
+        <span class="timeline-bounds">
+            {{ day_start }} - {{ day_end }}
+        </span>
+    </div>
+
+    <div class="timeline-card">
+        <div class="timeline-container">
+            {% if timeline and timeline|length > 0 %}
+                <div class="timeline-sequence" id="timelineSequence">
+                    {% for block in timeline %}
+                        <div class="timeline-block {% if block.is_fixed %}block-fixed{% else %}block-flexible{% endif %}" 
+                            draggable="true" 
+                            data-item-type="{% if block.is_fixed %}fixed{% else %}flexible{% endif %}"
+                            data-item-id="{{ block.id }}">
+        
+                        <div class="block-time">
+                            <span class="start-time">{{ block.start_time.strftime("%I:%M %p") }}</span>
+                        </div>
+
+                        <div class="block-content">
+                            <h3 class="block-title">{{ block.name }}</h3>
+                        </div>
+                    </div>
+
+                    <form method="POST" 
+                        action="{% if block.is_fixed %}{{ url_for('remove_fixed_event', item_id=block.id) }}{% else %}{{ url_for('remove_flexible_task', item_id=block.id) }}{% endif %}" 
+                        style="display: inline;">
+                        <button type="submit" 
+                            class="btn-delete-hover delete-btn" 
+                            title="Delete Task">&times;</button>
+                    </form>
+
+                </div>
+            {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-timeline">
+                    <p>Add plans!</p>
+                </div>
+            {% endif %}
+
+            {% if overflow and overflow|length > 0 %}
+                <div class="timeline-overflow-section">
+                    <h3>No room!</h3>
+                    <p class="overflow-subtext">These tasks did not fit into your day:</p>
+                    <ul class="overflow-list">
+                        {% for task in overflow %}
+                            <li class="overflow-item">
+                                <span class="overflow-name"><strong>{{ task.name }}</strong></span>
+                                <span class="badge overflow-duration">{{ task.duration_minutes }} mins</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+

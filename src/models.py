@@ -22,3 +22,4 @@ class ScheduleBlock:
     start_time: time
     end_time: time
     is_fixed: bool
+    id: Optional[int] = None  

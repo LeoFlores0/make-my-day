@@ -16,31 +16,19 @@ db.init_db()
 
 @app.route("/")
 def index():
-    """Unified Single-Page App router."""
-    # Get all existing schedule profiles to populate selection lists
     all_schedules = db.get_all_schedules()
-    
-    # Check if a specific schedule is currently active in the user's browser session
     active_schedule = session.get("active_schedule")
     
     if not active_schedule:
-        # Startup View (Choose or create a profile)
         return render_template("dashboard.html", state="startup", schedules=all_schedules)
     
-    # Core Dashboard View
-    # Fetch boundaries and items from database
     day_start, day_end = db.get_schedule_bounds(active_schedule)
-    db_fixed_events = db.load_fixed_events(active_schedule)  # returns List[Tuple[id, FixedEvent]]
-    db_flexible_tasks = db.load_flexible_tasks(active_schedule)  # returns List[Tuple[id, FlexibleTask]]
+    db_fixed_events = db.load_fixed_events(active_schedule)  
+    db_flexible_tasks = db.load_flexible_tasks(active_schedule)  
     scratchpad_notes = db.get_scratchpad(active_schedule)
     
-    # Extract dataclass lists for schedule generation algorithm
-    fixed_events_list = [item[1] for item in db_fixed_events]
-    flexible_tasks_list = [item[1] for item in db_flexible_tasks]
-    
-    # Compute the automated time blocks and any overflow tasks using the engine
     computed_timeline, overflow_tasks = generate_daily_schedule(
-        day_start, day_end, fixed_events_list, flexible_tasks_list
+        day_start, day_end, db_fixed_events, db_flexible_tasks
     )
     
     return render_template(

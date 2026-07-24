@@ -125,23 +125,58 @@ def save_flexible_task(schedule_name: str, task: FlexibleTask):
 # Data Query Tools
 
 def load_fixed_events(schedule_name: str) -> List[Tuple[int, FixedEvent]]:
-    events = []
+    """Loads all fixed events associated with a specific schedule profile.
+    
+    Returns a list of tuples: [(event_id, FixedEvent), ...]
+    """
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT id, name, start_time, end_time FROM fixed_events WHERE schedule_name = ?", (schedule_name,))
-    for row in cursor.fetchall():
-        start_t = time.fromisoformat(row["start_time"])
-        end_t = time.fromisoformat(row["end_time"])
-        events.append((row["id"], FixedEvent(name=row["name"], start_time=start_t, end_time=end_t)))
+    cursor.execute(
+        "SELECT id, name, start_time, end_time FROM fixed_events WHERE schedule_name = ?",
+        (schedule_name,)
+    )
+    rows = cursor.fetchall()
+    
+    events = []
+    for row in rows:
+        event_id = row["id"]
+        # Convert time strings (HH:MM or HH:MM:SS) back to datetime.time objects
+        s_parts = [int(p) for p in row["start_time"].split(":")]
+        e_parts = [int(p) for p in row["end_time"].split(":")]
+        
+        event = FixedEvent(
+            name=row["name"],
+            start_time=time(*s_parts),
+            end_time=time(*e_parts)
+        )
+        events.append((event_id, event))
+        
     return events
 
+
 def load_flexible_tasks(schedule_name: str) -> List[Tuple[int, FlexibleTask]]:
-    tasks = []
+    """Loads all flexible tasks associated with a specific schedule profile.
+    
+    Returns a list of tuples: [(task_id, FlexibleTask), ...]
+    """
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT id, name, duration_minutes, priority FROM flexible_tasks WHERE schedule_name = ?", (schedule_name,))
-    for row in cursor.fetchall():
-        tasks.append((row["id"], FlexibleTask(name=row["name"], duration_minutes=row["duration_minutes"], priority=row["priority"])))
+    cursor.execute(
+        "SELECT id, name, duration_minutes, priority FROM flexible_tasks WHERE schedule_name = ?",
+        (schedule_name,)
+    )
+    rows = cursor.fetchall()
+    
+    tasks = []
+    for row in rows:
+        task_id = row["id"]
+        task = FlexibleTask(
+            name=row["name"],
+            duration_minutes=row["duration_minutes"],
+            priority=row["priority"]
+        )
+        tasks.append((task_id, task))
+        
     return tasks
 
 # Scratchpad Notepad Logic

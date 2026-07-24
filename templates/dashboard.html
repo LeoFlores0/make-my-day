@@ -5,22 +5,21 @@
         {% include "components/startup-card.html" %}
 
     {% else %}
-        <div class="dashboard-layout">
-            <aside class="dashboard-forms">
-                {% include "components/form-fixed.html" %}
-                {% include "components/form-flexible.html" %}
+        <div class="app-container">
+            <div class="split-layout">
                 
-                <div class="grid-two-column">
-                    {% include "components/list-fixed.html" %}
-                    {% include "components/list-flexible.html" %}
+                <div class="forms-column">
+                    {% include "components/form-fixed.html" %}
+                    {% include "components/form-flexible.html" %}
+
+                    {% include "components/notes.html" %}
                 </div>
 
-                {% include "components/notes.html" %}
-            </aside>
+                <div class="schedule-column">
+                    {% include "components/schedule-timeline.html" %}
+                </div>
 
-            <main class="dashboard-main">
-                {% include "components/schedule-timeline.html" %}
-            </main>
+            </div>
         </div>
     {% endif %}
 {% endblock %}
