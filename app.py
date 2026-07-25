@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from dotenv import load_dotenv
 from datetime import time, datetime
 import src.database as db
@@ -141,6 +141,37 @@ def save_notes():
         notes_text = request.form.get("notes", "")
         db.update_scratchpad(active_schedule, notes_text)
     return redirect(url_for("index"))
+
+# DRAG AND DROP REORDER TASKS
+
+@app.route("/reorder-timeline", methods=["POST"])
+def reorder_timeline():
+    """
+    Receives updated timeline sequence from drag-and-drop JS.
+    Updates flexible task priorities based on their new relative ordering.
+    """
+    active_schedule = session.get("active_schedule")
+    if not active_schedule:
+        return jsonify({"status": "error", "message": "No active schedule found"}), 400
+
+    data = request.get_json()
+    if not data or "order" not in data:
+        return jsonify({"status": "error", "message": "Invalid request payload"}), 400
+
+    new_order = data["order"]
+
+    # Filter out flexible task IDs in the sequence they now appear
+    # We assign higher priority numbers (or rank order) based on position
+    flexible_priority = 1
+    for item in new_order:
+        if item.get("type") == "flexible":
+            task_id = item.get("id")
+            if task_id:
+                # Update task priority in the database
+                db.update_flexible_task_priority(task_id, flexible_priority)
+                flexible_priority += 1
+
+    return jsonify({"status": "success", "message": "Schedule reordered successfully"}), 200
 
 if __name__ == "__main__":
     # Run the local server in debug mode for immediate code reload updates

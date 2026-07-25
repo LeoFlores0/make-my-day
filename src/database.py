@@ -220,3 +220,17 @@ def clear_schedule_contents(schedule_name: str):
     cursor.execute("DELETE FROM flexible_tasks WHERE schedule_name = ?", (schedule_name,))
     cursor.execute("DELETE FROM scratchpads WHERE schedule_name = ?", (schedule_name,))
     conn.commit()
+    
+def update_flexible_task_priority(task_id, new_priority):
+    """Updates the priority rank of a flexible task by ID."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute("""
+        UPDATE flexible_tasks
+        SET priority = ?
+        WHERE id = ?
+    """, (new_priority, task_id))
+    
+    conn.commit()
+    conn.close()    

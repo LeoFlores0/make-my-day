@@ -12,13 +12,15 @@
                 <div class="timeline-sequence" id="timelineSequence">
                     {% for block in timeline %}
                         <div class="timeline-block {% if block.is_fixed %}block-fixed{% else %}block-flexible{% endif %}" 
-                            draggable="true" 
+                            draggable="{% if block.is_fixed %}false{% else %}true{% endif %}" 
                             data-item-type="{% if block.is_fixed %}fixed{% else %}flexible{% endif %}"
                             data-item-id="{{ block.id }}">
         
-                            <div class="block-time">
-                                <span class="start-time">{{ block.start_time.strftime("%I:%M %p") }}</span>
-                            </div>
+                            {% if block.is_fixed %}
+                                <div class="block-time">
+                                    <span class="start-time">{{ block.start_time.strftime("%I:%M %p") }}</span>
+                                </div>
+                            {% endif %}
 
                             <div class="block-content">
                                 <h3 class="block-title">{{ block.name }}</h3>
@@ -58,3 +60,4 @@
     </div>
 </div>
 
+<script src="{{ url_for('static', filename='js/timeline-drag.js') }}"></script>
