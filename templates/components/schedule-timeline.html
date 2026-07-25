@@ -16,26 +16,24 @@
                             data-item-type="{% if block.is_fixed %}fixed{% else %}flexible{% endif %}"
                             data-item-id="{{ block.id }}">
         
-                        <div class="block-time">
-                            <span class="start-time">{{ block.start_time.strftime("%I:%M %p") }}</span>
-                        </div>
+                            <div class="block-time">
+                                <span class="start-time">{{ block.start_time.strftime("%I:%M %p") }}</span>
+                            </div>
 
-                        <div class="block-content">
-                            <h3 class="block-title">{{ block.name }}</h3>
-                        </div>
-                    </div>
+                            <div class="block-content">
+                                <h3 class="block-title">{{ block.name }}</h3>
+                            </div>
 
-                    <form method="POST" 
-                        action="{% if block.is_fixed %}{{ url_for('remove_fixed_event', item_id=block.id) }}{% else %}{{ url_for('remove_flexible_task', item_id=block.id) }}{% endif %}" 
-                        style="display: inline;">
-                        <button type="submit" 
-                            class="btn-delete-hover delete-btn" 
-                            title="Delete Task">&times;</button>
-                    </form>
-
-                </div>
-            {% endfor %}
-                </div>
+                            <form method="POST" 
+                                action="{% if block.is_fixed %}{{ url_for('remove_fixed_event', item_id=block.id) }}{% else %}{{ url_for('remove_flexible_task', item_id=block.id) }}{% endif %}" 
+                                class="delete-form">
+                                <button type="submit" 
+                                    class="delete-btn" 
+                                    title="Delete Task">&times;
+                                </button>
+                            </form>
+                        </div> 
+                    {% endfor %}
             {% else %}
                 <div class="empty-timeline">
                     <p>Add plans!</p>

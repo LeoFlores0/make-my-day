@@ -103,7 +103,7 @@ body {
 
 .split-layout {
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: 1.5fr auto 1fr;
     gap: 40px;
     align-items: start; 
     margin-top: 1rem;
@@ -285,6 +285,7 @@ body {
     cursor: grab;
     transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
     user-select: none;
+    min-width: 280px;
 }
 
 .timeline-block:hover {
@@ -324,32 +325,30 @@ body {
     margin: 0;
 }
 
-/* Delete Button */
+/* Delete Button Styling*/
+
+.timeline-block {
+    position: relative; /* Container anchor */
+}
 
 .delete-form {
-    margin: 0;
-    padding: 0;
-    line-height: 1;
+    position: absolute;
+    top: 6px;
+    right: 8px;
 }
 
-.btn-delete-hover {
-    display: none;
+.delete-btn {
     background: transparent;
     border: none;
-    color: #e63946;
-    font-size: 1.5rem;
-    font-weight: bold;
+    color: #ff0000;
+    font-size: 1.1rem;
     cursor: pointer;
-    padding: 0 5px;
+    padding: 2px 6px;
+    border-radius: 50%;
     line-height: 1;
-    transition: color 0.2s ease, transform 0.2s ease;
 }
 
-.timeline-block:hover .btn-delete-hover {
-    display: block;
-}
-
-.btn-delete-hover:hover {
-    color: #b71c1c;
-    transform: scale(1.2);
+.delete-btn:hover {
+    color: #ff0800;
+    background-color: rgba(217, 83, 79, 0.15);
 }
