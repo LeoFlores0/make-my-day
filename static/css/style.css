@@ -40,8 +40,9 @@ body {
 .app-header, 
 .app-container {
     width: 100%;
-    transform: translateY(-6vh); 
-    transition: transform 0.3s ease;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 .app-header {
@@ -111,7 +112,7 @@ body {
 
 .vertical-divider {
     width: 2px;
-    height: 315px;
+    height: 350px;
     background-color: #ff1b8d;
     border-radius: 2px;
     align-self: center;
