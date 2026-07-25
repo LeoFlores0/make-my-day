@@ -1,6 +1,13 @@
 <div class="schedule-column">
     <div class="timeline-header">
-        <h2>Today's Schedule</h2>
+        <div class="header-title-group">
+            <h2>Today's Schedule</h2>
+            <form method="POST" action="{{ url_for('clear_all') }}" class="clear-all-form">
+                <button type="submit" class="btn-clear-all" onclick="return confirm('Are you sure you want to clear all tasks?');">
+                    Clear All
+                </button>
+            </form>
+        </div>
         <span class="timeline-bounds">
             {{ day_start }} - {{ day_end }}
         </span>
