@@ -283,6 +283,14 @@ body {
     margin-bottom: 0.5rem;     
 }
 
+.header-title-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
 .timeline-bounds {
     font-family: 'Quicksand', sans-serif;
     font-size: 1rem;

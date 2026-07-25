@@ -173,15 +173,6 @@ def reorder_timeline():
 
     return jsonify({"status": "success", "message": "Schedule reordered successfully"}), 200
 
-# CLEAR ALL TASKS & EVENTS FOR ACTIVE SCHEDULE
-
-@app.route("/clear-all", methods=["POST"])
-def clear_all_tasks():
-    active_schedule = session.get("active_schedule")
-    if active_schedule:
-        db.clear_schedule_contents(active_schedule)
-    return redirect(url_for("index"))
-
 if __name__ == "__main__":
     # Run the local server in debug mode for immediate code reload updates
     app.run(debug=True)
