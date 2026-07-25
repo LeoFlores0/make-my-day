@@ -254,7 +254,8 @@ body {
 .form-grid-two-col {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;                   
+    gap: 12px;    
+    align-items: end;               
 }
 
 /* Schedule List UI */
