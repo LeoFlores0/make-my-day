@@ -104,7 +104,7 @@ body {
 
 .split-layout {
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: 350px auto 1fr; 
     gap: 40px;
     align-items: start; 
     margin-top: 1rem;
@@ -287,9 +287,7 @@ body {
 .header-title-group {
     display: flex;
     align-items: center;
-    justify-content: space-between; 
-    width: 100%;
-    margin-bottom: 0.5rem;
+    gap: 12px; 
 }
 
 .timeline-bounds {
