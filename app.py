@@ -67,8 +67,8 @@ def create_schedule():
         session["active_schedule"] = name  # Auto-select the newly created schedule
     return redirect(url_for("index"))
 
-@app.route("/schedule/clear-session")
-def clear_session():
+@app.route("/schedule/return")
+def change_schedule():
     """Logs out and returns to the startup view."""
     session.pop("active_schedule", None)
     return redirect(url_for("index"))

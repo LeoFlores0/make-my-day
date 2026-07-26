@@ -272,6 +272,7 @@ body {
     flex-direction: column;     
     align-items: flex-start;    
     padding: 0 5px 15px 5px; 
+    width: 100%;
 }
 
 .timeline-header h2 {

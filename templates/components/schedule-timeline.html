@@ -7,6 +7,11 @@
                     Clear All
                 </button>
             </form>
+            <form action="{{ url_for('change_schedule') }}" class="change-schedule-form">
+                <button type="submit" class="btn btn-primary">
+                    Change Schedule
+                </button>
+            </form>
         </div>
         <span class="timeline-bounds">
             {{ day_start }} - {{ day_end }}
