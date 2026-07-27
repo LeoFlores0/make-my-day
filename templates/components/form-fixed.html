@@ -1,15 +1,15 @@
 <div class="fixed-form-card">
     <div class="form-header">
-        <h2>Add Fixed Event</h2>
+        <h2>What can't be moved?</h2>
     </div>
     
     <form action="{{ url_for('add_fixed_event') }}" method="POST" class="fixed-form">
         <div class="form-group">
-            <label for="fixed-name">Event Name</label>
+            <label for="fixed-name">Name</label>
             <input type="text" 
                    id="fixed-name" 
                    name="name" 
-                   placeholder="e.g., Class" 
+                   placeholder="e.g., Meeting" 
                    required>
         </div>
 
