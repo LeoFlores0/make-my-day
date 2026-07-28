@@ -13,7 +13,7 @@
                         {% for schedule in schedules %}
                             <button type="submit" name="name" value="{{ schedule.name }}" class="btn-primary ">
                                 <span class="schedule-name">{{ schedule.name }}</span>
-                                <span class="schedule-time">{{ schedule.day_start }} - {{ schedule.day_end }}</span>                            
+                                <span class="schedule-time">{{ schedule.day_start.strftime("%I:%M %p") }} - {{ schedule.day_end.strftime("%I:%M %p") }}</span>                            
                             </button>
                         {% endfor %}
                     </div>

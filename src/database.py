@@ -74,7 +74,17 @@ def get_all_schedules() -> List[dict]:
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT name, day_start, day_end FROM schedules")
-    return [dict(row) for row in cursor.fetchall()]
+    
+    schedules = []
+    for row in cursor.fetchall():
+        item = dict(row)
+        if isinstance(item["day_start"], str):
+            item["day_start"] = time.fromisoformat(item["day_start"])
+        if isinstance(item["day_end"], str):
+            item["day_end"] = time.fromisoformat(item["day_end"])
+        schedules.append(item)
+        
+    return schedules
 
 def get_schedule_bounds(name: str) -> Tuple[time, time]:
     """Fetches custom time limits parsed out as standard time objects."""
@@ -223,7 +233,7 @@ def clear_schedule_contents(schedule_name: str):
     
 def update_flexible_task_priority(task_id, new_priority):
     """Updates the priority rank of a flexible task by ID."""
-    conn = get_db_connection()
+    conn = get_connection()
     cursor = conn.cursor()
     
     cursor.execute("""

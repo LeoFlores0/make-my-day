@@ -353,7 +353,7 @@ body {
     font-size: 0.85rem;
     font-weight: 600;
     color: #4a2d2d;
-    margin-right: 0; /* Cleared margin */
+    margin-right: 0;
 }
 
 .block-content {
