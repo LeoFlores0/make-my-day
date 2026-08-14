@@ -145,6 +145,7 @@ body {
 .schedule-name {
     flex-grow: 1;
     text-align: left;
+    color: #ff1b8d;
 }
 
 .schedule-time {
