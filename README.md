@@ -8,14 +8,6 @@
 
 An algorithmic daily planner and scheduling engine that solves temporal constraint satisfaction problems by automatically scheduling flexible tasks around fixed, unmovable events within customizable time boundaries. Built with a decoupled core scheduling engine, a Flask web dashboard, interactive client-side drag-and-drop timeline reordering, and a terminal CLI interface.
 
----
-## Workspace Preview
-
-![Interactive Dashboard Timeline](assets/dashboard-preview.png)
-*Figure 1: Interactive drag-and-drop schedule reordering and overflow tracking.*
-
----
-
 ## Key Features
 
 * **Algorithmic Schedule Synthesis**: Automatically places flexible tasks into available time gaps between fixed events based on duration and priority ranking.
@@ -113,7 +105,7 @@ Bash
 python cli_main.py
 
 ## Project Structure
-.
+
 ├── app.py                      # Flask web server routes & API endpoints
 ├── cli_main.py                 # Command-line interface entry point 
 ├── src/
